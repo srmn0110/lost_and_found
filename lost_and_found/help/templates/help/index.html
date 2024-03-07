@@ -5,15 +5,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Gallery</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Ensure all images have the same size */
+        .image-item {
+            position: relative;
+            overflow: hidden;
+            height: 200px; /* Adjust the height as needed */
+        }
+
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Add some spacing and styling for better aesthetics */
+        body {
+            padding: 20px;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .image-radio {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Image Gallery</h1>
-    <div class="image-grid">
-        {% for image_url in image_list %}
-            <div class="image-item">
-                <img src="{% static image_url %}" alt="Image">
+    <div class="container">
+        <h1 class="mt-4 mb-4">Image Gallery</h1>
+        <h2>Choose an image:</h2>
+        <form action="/" method="post" id="imageForm">
+            {% csrf_token %}
+            <div class="image-grid">
+                {% for image_url in image_list %}
+                    <div class="image-item">
+                        <input type="radio" name="selected_image" class="image-radio" value="{{ image_url }}">
+                        <img src="{% static image_url %}" alt="Image" class="img-fluid">
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+        <br><br><br>
+        <div class="container mt-5">
+            <p class="time-taken" style="color: grey;">time_taken : {{ time_taken }}</p>
+          </div>
+        
     </div>
+
+    <!-- Bootstrap JS and Popper.js (optional) -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('input[name="selected_image"]').change(function () {
+                var selectedImage = $('input[name="selected_image"]:checked').val();
+                $('#imageForm').attr('action', '/help/selected_image/' + selectedImage);
+            });
+        });
+    </script>
 </body>
 </html>
