@@ -85,6 +85,7 @@ def index(request):
                 
                 
                 question = f"is there a {res['answer']} in the picture"
+                print("\n\tquestion = ",question)
                 inputs = processor(image, question, return_tensors="pt")
 
                 out = model.generate(**inputs)
@@ -111,7 +112,6 @@ def index(request):
 
 
     return render(request, 'help/index.html')
-
 
 
 

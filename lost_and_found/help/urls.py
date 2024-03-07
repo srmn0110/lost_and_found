@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     # Add your URL patterns here
     path('', views.index, name='index'),
+    
 
 ]
 
